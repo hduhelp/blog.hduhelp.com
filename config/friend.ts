@@ -19,5 +19,11 @@ export const friends: FriendProps[] = [
     avatar: 'https://eson.ninja/img/reol.png',
     bgColor: '#225BC6',  // light blue
   }
-
+  
+  {
+    id: '@ek1ng',
+    link: 'https://ek1ng.com/',
+    avatar: 'https://ek1ng.com/img/avatar.jpg',
+    bgColor: '#70887D',
+  }
 ]
