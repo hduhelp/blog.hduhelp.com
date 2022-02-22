@@ -1,6 +1,8 @@
 name: deploy website
 on:
-  merge:
+  pull_request:
+    types:
+      - auto_merge_enabled
   push:
     branches:
       - main
