@@ -2,25 +2,28 @@ import Link from 'next/link'
 import { Menu, Transition } from '@headlessui/react'
 import { Menu as MenuIcon, Rss } from 'react-feather'
 import { Fragment } from 'react'
-// import Toggle from './DarkToggle'
+import Toggle from './DarkToggle'
 
-const navigations = [
-  {
-    name: 'Blog',
-    link: '/blog',
-  },
-  {
-    name: 'Publication',
-    link: '/publication',
-  },
-  {
-    name: 'Links',
-    link: '/links',
-  },
-  {
-    name: 'Friends',
-    link: '/friends',
-  },
+const navigations: {
+  name: string;
+  link: string;
+}[] = [
+  // {
+  //   name: 'Blog',
+  //   link: '/blog',
+  // },
+  // {
+  //   name: 'Publication',
+  //   link: '/publication',
+  // },
+  // {
+  //   name: 'Links',
+  //   link: '/links',
+  // },
+  // {
+  //   name: 'Friends',
+  //   link: '/friends',
+  // },
 ]
 
 const MenuItemLink = (props: { [x: string]: any; href: any; children: any }) => {
@@ -36,7 +39,7 @@ const Navbar = () => {
   return (
     <header className="flex p-6 z-10 items-center justify-between primary-text">
       <Link href="/" passHref>
-        <a>Spencer</a>
+        <a>HDUHELP</a>
       </Link>
       <div className="flex space-x-4 items-center">
         <nav className="flex space-x-4 items-center hidden sm:block">
@@ -82,7 +85,7 @@ const Navbar = () => {
         >
           <Rss size={20} />
         </div>
-        {/* <Toggle /> */}
+        <Toggle />
       </div>
     </header>
   )

@@ -11,7 +11,7 @@ import { renderNotionBlock } from '../../components/NotionBlockRenderer'
 
 import { getDatabase, getPage, getBlocks } from '../../lib/notion'
 import probeImageSize from '../../lib/imaging'
-import Comments from '../../components/Comments'
+// import Comments from '../../components/Comments'
 import Link from 'next/link'
 import { ArrowLeft, Bookmark, MessageCircle } from 'react-feather'
 import BlogCopyright from '../../components/BlogCopyright'
@@ -71,14 +71,14 @@ const Post: NextPage<{ page: any; blocks: any[] }> = ({ page, blocks }) => {
               <BlogCopyright page={page} absoluteLink={`${hostname}/blog/${router.query.slug}`} />
             </div>
 
-            <Link href="/blog" passHref>
+            <Link href="/" passHref>
               <div className="border rounded cursor-pointer flex border-gray-400/30 mt-4 p-4 items-center justify-between md:-mx-4 hover:(bg-light-200 opacity-80) dark:hover:bg-dark-700 ">
-                <span>cd /blog</span>
+                <span>cd /index</span>
                 <ArrowLeft />
               </div>
             </Link>
 
-            <Comments />
+            {/* <Comments /> */}
           </div>
 
           <BlogToc blocks={blocks} />
