@@ -112,7 +112,7 @@ const SearchModal: FC<{
                                 {result.properties.preview.rich_text[0].plain_text}
                               </div>
                               <div className="font-mono text-xs secondary-text">
-                                {result.properties.date.date.start}
+                                {new Date(result.properties.date.date.start).toLocaleDateString()}
                               </div>
                             </div>
                           </a>
