@@ -1,6 +1,6 @@
 name: deploy website
 on:
-  pull_request:
+  merge:
   push:
     branches:
       - main
