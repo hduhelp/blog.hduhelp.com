@@ -1,6 +1,8 @@
-<samp><a href="https://spencerwoo.com" target="_blank" rel="noopener noreferrer">spencerwoo.com</a></samp>
+<samp><a href="https://blog.hduhelp.com" target="_blank" rel="noopener noreferrer">blog.hduhelp.com</a></samp>
 
-personal portfolio powered by **Next.js**.
+the blog of hduhelp
+
+add frend link [here](./config/friend.ts)
 
 <br>
 
