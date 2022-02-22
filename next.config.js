@@ -7,6 +7,7 @@ module.exports = {
     domains: [
       'eson.ninja',
       'ek1ng.com',
+      'nickxu.top',
       's3-us-west-2.amazonaws.com',
       's3.us-west-2.amazonaws.com',
       'cdn.spencer.felinae98.cn',
