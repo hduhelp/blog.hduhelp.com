@@ -4,6 +4,8 @@ the blog of hduhelp
 
 add frend link [here](./config/friend.ts)
 
+add no-proxy domain image [here](next.config.js)
+
 <br>
 
 <samp>contents licensed under <a href='https://creativecommons.org/licenses/by-nc-sa/4.0/'>CC BY-NC-SA 4.0</a></samp>
