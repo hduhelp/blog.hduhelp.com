@@ -11,7 +11,7 @@ import { renderNotionBlock } from '../../components/NotionBlockRenderer'
 
 import { getDatabase, getPage, getBlocks } from '../../lib/notion'
 import probeImageSize from '../../lib/imaging'
-// import Comments from '../../components/Comments'
+import Comments from '../../components/Comments'
 import Link from 'next/link'
 import { ArrowLeft, Bookmark, MessageCircle } from 'react-feather'
 import BlogCopyright from '../../components/BlogCopyright'
@@ -78,7 +78,7 @@ const Post: NextPage<{ page: any; blocks: any[] }> = ({ page, blocks }) => {
               </div>
             </Link>
 
-            {/* <Comments /> */}
+            <Comments />
           </div>
 
           <BlogToc blocks={blocks} />
