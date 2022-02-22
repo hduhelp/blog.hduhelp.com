@@ -15,6 +15,7 @@ module.exports = {
       'avatars1.githubusercontent.com',
       'avatars2.githubusercontent.com',
       'avatars3.githubusercontent.com'
+      'nickxu.top'
     ]
   },
   webpack(config) {
