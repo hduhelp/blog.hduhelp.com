@@ -2,7 +2,7 @@ import { Feed } from 'feed'
 import { GetServerSideProps } from 'next'
 import { getDatabase } from '../lib/notion'
 
-const domain = 'https://spencerwoo.com'
+const domain = 'https://blog.hduhelp.com'
 const year = new Date().getFullYear()
 
 // Function for generating the RSS feed
@@ -11,15 +11,15 @@ const generateRSS = (posts: any) => {
   const feed = new Feed({
     id: domain,
     link: domain,
-    title: "Spencer Woo - Spencer's Blog (＠_＠;)",
+    title: "HDUHELP - HDUHELP's Blog (＠_＠;)",
     description: 'Thoughts, ideas, and more.',
-    copyright: `All rights reserved ${year}, Spencer Woo`,
+    copyright: `All rights reserved ${year}, HDUHELP`,
     image: `${domain}/favicon.png`,
     favicon: `${domain}/favicon.ico`,
     author: {
-      name: 'Spencer Woo',
-      email: 'spencer.wushangbo@gmail.com',
-      link: 'https://spencerwoo.com',
+      name: 'HDUHELP',
+      email: 'i@hduhelp.com',
+      link: 'https://blog.hduhelp.com',
     },
   })
 

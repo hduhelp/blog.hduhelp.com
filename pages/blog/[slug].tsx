@@ -19,7 +19,7 @@ import BlogToc from '../../components/BlogToc'
 
 const Post: NextPage<{ page: any; blocks: any[] }> = ({ page, blocks }) => {
   const router = useRouter()
-  const hostname = typeof window !== 'undefined' ? window.location.origin : 'https://spencerwoo.com'
+  const hostname = typeof window !== 'undefined' ? window.location.origin : 'https://blog.hduhelp.com'
 
   if (!page || !blocks) return <div></div>
 
@@ -27,7 +27,7 @@ const Post: NextPage<{ page: any; blocks: any[] }> = ({ page, blocks }) => {
     <div>
       <Head>
         <title>{page.properties.name.title[0].plain_text} - Spencer&apos;s Blog</title>
-        <meta name="description" content="Spencer Woo" />
+        <meta name="description" content="HDUHELP" />
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
