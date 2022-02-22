@@ -45,7 +45,7 @@ const Post: NextPage<{ page: any; blocks: any[] }> = ({ page, blocks }) => {
                 <span>{page.icon.emoji}</span>
               </h1>
               <div className="flex flex-wrap space-x-2 h-8 mb-8 secondary-text items-center">
-                <span>{page.properties.date.date.start}</span>
+                <span>{new Date(page.properties.date.date.start).toDateString()}</span>
                 <span>·</span>
                 {page.properties.author.people.map((person: { name: string }) => (
                   <span key={person.name}>{person.name.toLowerCase()}</span>
@@ -53,7 +53,9 @@ const Post: NextPage<{ page: any; blocks: any[] }> = ({ page, blocks }) => {
                 <span>·</span>
                 <div className="inline-flex items-center space-x-1">
                   <Bookmark size={18} />
-                  <span>{page.properties.tag.select.name.toLowerCase()}</span>
+                  {page.properties.tags.multi_select.map((tag: { name: string }) => (
+                    <span key={tag.name}>{tag.name.toLowerCase()}</span>
+                  ))}
                 </div>
                 <span>·</span>
                 <Link href="#comments-section" passHref>

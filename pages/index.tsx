@@ -51,13 +51,15 @@ const Blog: NextPage<{ posts: BlogPosts }> = ({ posts }) => {
                 <p className="text-sm primary-text">{post.properties.preview.rich_text[0].text.content}</p>
 
                 <div className="flex flex-wrap space-x-2 text-sm secondary-text items-center">
-                  <span>{post.properties.date.date.start}</span>
+                  <span>{new Date(post.properties.date.date.start).toDateString()}</span>
                   <span>·</span>
                   {post.properties.author.people.map((person: { name: string }) => (
                     <span key={person.name}>{person.name.toLowerCase()}</span>
                   ))}
                   <span>·</span>
-                  <span>{post.properties.tag.select.name.toLowerCase()}</span>
+                  {post.properties.tags.multi_select.map((tag: { name: string }) => (
+                    <span key={tag.name}>{tag.name.toLowerCase()}</span>
+                  ))}
                 </div>
               </div>
             </Link>

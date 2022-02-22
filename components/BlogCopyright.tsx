@@ -32,7 +32,7 @@ const BlogCopyright = ({ page, absoluteLink }: { page: any; absoluteLink: string
         </div>
         <div>
           <div className="text-xs">Date</div>
-          <div>{page.properties.date.date.start}</div>
+          <div>{new Date(page.properties.date.date.start).toDateString()}</div>
         </div>
         <div>
           <div className="text-xs">License</div>
