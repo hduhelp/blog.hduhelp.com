@@ -11,12 +11,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Skip Deploy?
-        if: secrets.VERCEL_TOKEN == ''
-        run: |
-          echo "Only pushing to 'main' causes automatic deployment"
-          exit 0
-
       - uses: actions/checkout@v2
       - uses: amondnet/vercel-action@v19
         with:
