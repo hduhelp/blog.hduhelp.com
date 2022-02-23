@@ -33,7 +33,7 @@ export const friends: FriendProps[] = [
   },
   {
     id: '@william',
-    link: 'https://github.com/william0620/',
+    link: 'https://github.com/william0620',
     avatar: 'https://avatars3.githubusercontent.com/u/68418870',
     bgColor: '#e6e6fa',
   },
