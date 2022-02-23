@@ -37,4 +37,10 @@ export const friends: FriendProps[] = [
     avatar: 'https://avatars3.githubusercontent.com/u/68418870',
     bgColor: '#e6e6fa',
   },
+  {
+    id: '@Bird',
+    link: 'https://github.com/aFlyBird0',
+    avatar: 'https://avatars.githubusercontent.com/u/36830265',
+    bgColor: '#66ccff',
+  },
 ]
