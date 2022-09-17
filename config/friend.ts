@@ -28,7 +28,7 @@ export const friends: FriendProps[] = [
   {
     id: '@NX',
     link: 'https://www.nickxu.top/',
-    avatar: 'https://www.nickxu.top/img/favicon.jpg',
+    avatar: 'https://www.nickxu.top/static/favicon.jpg',
     bgColor: '#00FF00',
   },
   {
