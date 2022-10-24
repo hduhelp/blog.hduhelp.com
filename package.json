@@ -30,7 +30,6 @@
     "react-feather": "^2.0.9",
     "react-latex-next": "^2.1.0",
     "react-syntax-highlighter": "^15.4.5",
-    "swr": "^1.1.2",
     "three": "^0.137.4",
     "transliteration": "^2.2.0",
     "unfurl.js": "^5.6.3",
