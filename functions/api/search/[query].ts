@@ -1,5 +1,4 @@
 import { Client } from '@notionhq/client/build/src'
-import { request } from 'http';
 import { Env, searchDatabase } from '../../utils/notion'
 import { jsonResponse } from '../../utils/response'
 

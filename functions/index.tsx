@@ -1,22 +1,17 @@
-import { useState } from 'react'
+import { Env, getDatabase } from "./utils/notion";
+import React from "react";
 import type { QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints'
 import type { GetStaticProps, NextPage } from 'next'
+import ReactDOMServer from "react-dom/server";
 import Link from 'next/link'
 import Head from 'next/head'
-
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
-import SearchModal from '../components/SearchModal'
-
-import { getDatabase } from '../lib/notion'
-import { Search } from 'react-feather'
+import { Client } from "@notionhq/client/build/src";
 
 type BlogPosts = QueryDatabaseResponse['results']
 
 const Blog: NextPage<{ posts: BlogPosts }> = ({ posts }) => {
-  const [searchOpen, setSearchOpen] = useState(false)
-  const openSearchBox = () => setSearchOpen(true)
-
   return (
     <div>
       <Head>
@@ -30,14 +25,10 @@ const Blog: NextPage<{ posts: BlogPosts }> = ({ posts }) => {
 
       <div className="flex flex-col min-h-screen dark:bg-dark-900">
         <Navbar />
-        <SearchModal searchOpen={searchOpen} setSearchOpen={setSearchOpen} />
 
         <main className="container flex flex-col mx-auto flex-1 max-w-3xl px-6">
           <h1 className="font-bold text-xl mb-8 heading-text flex items-center justify-between">
             <span>Blog</span>
-            <button className="p-1 cursor-pointer hover:text-gray-500" onClick={openSearchBox}>
-              <Search size={20} />
-            </button>
           </h1>
 
           {posts.map((post: any) => (
@@ -71,14 +62,15 @@ const Blog: NextPage<{ posts: BlogPosts }> = ({ posts }) => {
   )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
-  const db = await getDatabase()
-  return {
-    props: {
-      posts: db,
-    },
-    revalidate: 60,
-  }
-}
+export const onRequestGet: PagesFunction<Env> = async ({
+  env,
+}) => {
+  const notion = new Client({ auth: env.NOTION_KEY })
+  const posts = await getDatabase(env.NOTION_DATABASE_ID, notion)
 
-export default Blog
+  return new Response(ReactDOMServer.renderToString(<Blog posts={posts} />), {
+    headers: {
+      "Content-Type": "text/html"
+    }
+  })
+};
