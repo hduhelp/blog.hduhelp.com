@@ -96,7 +96,7 @@ const SearchModal: FC<{
                 )}
                 {results.result && (
                   <>
-                    {results.result.length === 0 ? (
+                    {/* {results.result.length === 0 ? (
                       <div className="text-center">
                         <Image src="/images/empty-list.png" alt="empty list" width={300} height={300} />
                         <div className="pb-4 secondary-text">Nothing here...</div>
@@ -118,7 +118,7 @@ const SearchModal: FC<{
                           </a>
                         </Link>
                       ))
-                    )}
+                    )} */}
                   </>
                 )}
               </div>

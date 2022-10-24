@@ -102,51 +102,51 @@ const Post: NextPage<{ page: any; blocks: any[] }> = ({ page, blocks }) => {
 interface Props extends ParsedUrlQuery {
   slug: string
 }
-export const getServerSideProps: GetServerSideProps = async ({ params, res }) => {
-  res.setHeader('Cache-Control', 'max-age=0, s-maxage=60, stale-while-revalidate')
+// export const getServerSideProps: GetServerSideProps = async ({ params, res }) => {
+//   res.setHeader('Cache-Control', 'max-age=0, s-maxage=60, stale-while-revalidate')
 
-  const { slug } = params as Props
-  const db = await getDatabase(slug)
-  const post = db[0].id
+//   const { slug } = params as Props
+//   const db = await getDatabase(slug)
+//   const post = db[0].id
 
-  const page = await getPage(post)
-  const blocks = await getBlocks(post)
+//   const page = await getPage(post)
+//   const blocks = await getBlocks(post)
 
-  // Retrieve all child blocks fetched
-  const childBlocks = await Promise.all(
-    blocks
-      .filter((b: any) => b.has_children)
-      .map(async b => {
-        return {
-          id: b.id,
-          children: await getBlocks(b.id),
-        }
-      })
-  )
-  const blocksWithChildren = blocks.map((b: any) => {
-    if (b.has_children && !b[b.type].children) {
-      b[b.type]['children'] = childBlocks.find(x => x.id === b.id)?.children
-    }
-    return b
-  })
+//   // Retrieve all child blocks fetched
+//   const childBlocks = await Promise.all(
+//     blocks
+//       .filter((b: any) => b.has_children)
+//       .map(async b => {
+//         return {
+//           id: b.id,
+//           children: await getBlocks(b.id),
+//         }
+//       })
+//   )
+//   const blocksWithChildren = blocks.map((b: any) => {
+//     if (b.has_children && !b[b.type].children) {
+//       b[b.type]['children'] = childBlocks.find(x => x.id === b.id)?.children
+//     }
+//     return b
+//   })
 
-  // Resolve all images' dimensions
-  await Promise.all(
-    blocksWithChildren
-      .filter((b: any) => b.type === 'image')
-      .map(async b => {
-        const { type } = b
-        const value = b[type]
-        const src = value.type === 'external' ? value.external.url : value.file.url
+//   // Resolve all images' dimensions
+//   await Promise.all(
+//     blocksWithChildren
+//       .filter((b: any) => b.type === 'image')
+//       .map(async b => {
+//         const { type } = b
+//         const value = b[type]
+//         const src = value.type === 'external' ? value.external.url : value.file.url
 
-        const { width, height } = await probeImageSize(src)
-        value['dim'] = { width, height }
-        b[type] = value
-      })
-  )
+//         const { width, height } = await probeImageSize(src)
+//         value['dim'] = { width, height }
+//         b[type] = value
+//       })
+//   )
 
-  // return { props: { page, blocks: blocksWithChildren }, revalidate: 1 }
-  return { props: { page, blocks: blocksWithChildren } }
-}
+//   // return { props: { page, blocks: blocksWithChildren }, revalidate: 1 }
+//   return { props: { page, blocks: blocksWithChildren } }
+// }
 
 export default Post

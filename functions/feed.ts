@@ -1,11 +1,10 @@
+import { Client } from '@notionhq/client'
 import { Feed } from 'feed'
-import { GetServerSideProps } from 'next'
-import { getDatabase } from '../lib/notion'
+import { Env, getDatabase } from './utils/notion'
 
 const domain = 'https://blog.hduhelp.com'
 const year = new Date().getFullYear()
 
-// Function for generating the RSS feed
 const generateRSS = (posts: any) => {
   // Create new feed object
   const feed = new Feed({
@@ -37,22 +36,17 @@ const generateRSS = (posts: any) => {
   return feed.rss2()
 }
 
-// Dummy component as Next.js must have a component to render
-const FeedComponent = () => null
-
-export const getServerSideProps: GetServerSideProps = async ({ res }) => {
-  res.setHeader('Cache-Control', 'max-age=0, s-maxage=60, stale-while-revalidate')
-
-  const posts = await getDatabase()
+export const onRequestGet: PagesFunction<Env> = async ({
+  env,
+}) => {
+  const notion = new Client({ auth: env.NOTION_KEY })
+  const posts = await getDatabase(env.NOTION_DATABASE_ID, notion)
   const xmlFeed = generateRSS(posts)
 
-  res.setHeader('Content-Type', 'text/xml')
-  res.write(xmlFeed)
-  res.end()
-
-  return {
-    props: {},
-  }
-}
-
-export default FeedComponent
+  return new Response(xmlFeed, {
+    headers: {
+      "Content-Type": "text/xml",
+      "Cache-Control": "max-age=0, s-maxage=60, stale-while-revalidate",
+    },
+  })
+};
