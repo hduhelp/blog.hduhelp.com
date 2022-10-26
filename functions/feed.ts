@@ -36,7 +36,7 @@ const generateRSS = (posts: any) => {
   return feed.rss2()
 }
 
-export const handleGetFeed = async (env: Env) => {
+export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
   const notion = new Client({ auth: env.NOTION_KEY })
   const posts = await getDatabase(env.NOTION_DATABASE_ID, notion)
   const xmlFeed = generateRSS(posts)

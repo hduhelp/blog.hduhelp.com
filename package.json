@@ -5,7 +5,7 @@
     "dev": "next dev",
     "build": "next build",
     "build:worker": "esbuild functions/index.tsx --bundle --outfile=out/_worker.js",
-    "export": "next build && next export && npm run build:worker",
+    "export": "next build && next export",
     "start": "next start",
     "lint": "next lint"
   },
@@ -16,6 +16,7 @@
     "@notionhq/client": "^0.4.12",
     "awesome-debounce-promise": "^2.1.0",
     "buffer": "^6.0.3",
+    "build-worker": "^0.2.2",
     "esbuild": "^0.15.12",
     "feed": "^4.2.2",
     "flareact": "^1.5.0",
