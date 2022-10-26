@@ -4,9 +4,7 @@ const WindiCSSWebpackPlugin = require('windicss-webpack-plugin')
 module.exports = {
   reactStrictMode: true,
   images: {
-    path: '/',
-    loader: 'akamai',
-    domains: []
+    unoptimized: true
   },
   webpack(config) {
     config.plugins.push(new WindiCSSWebpackPlugin())

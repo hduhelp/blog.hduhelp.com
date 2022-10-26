@@ -1,9 +1,15 @@
 import { Client } from '@notionhq/client'
-import probeImageSize from '../../utils/imaging';
 import { Env, getBlocks, getDatabase, getPage } from '../../utils/notion'
 import { jsonResponse } from '../../utils/response';
 
-export const onRequestGet: PagesFunction<Env> = async ({ env, params }) => {
+export const onRequestGet: PagesFunction<Env> = async ({ request, env, params }) => {
+  const url = new URL(request.url)
+  let cache = await caches.open("custom:cache")
+  const cached = await cache.match(url)
+  if (cached) {
+    return cached
+  }
+
   const notion = new Client({ auth: env.NOTION_KEY })
   const slug: string = params.slug as string
   const posts = await getDatabase(env.NOTION_DATABASE_ID, notion, slug)
@@ -42,8 +48,8 @@ export const onRequestGet: PagesFunction<Env> = async ({ env, params }) => {
   // )
 
   return jsonResponse({ page, blocks: blocksWithChildren }, {
-    headers: {
-      'Cache-Control': 'max-age=0, s-maxage=60, stale-while-revalidate'
-    }
+    // headers: {
+    //   'Cache-Control': 'max-age=0, s-maxage=60, stale-while-revalidate'
+    // }
   })
 };
