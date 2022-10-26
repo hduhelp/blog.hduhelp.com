@@ -1,11 +1,10 @@
 import { Client } from '@notionhq/client'
-import { Env, getBlocks, getDatabase, getPage } from '../../utils/notion'
-import { jsonResponse } from '../../utils/response';
+import { Env, getBlocks, getDatabase, getPage } from '../../notion'
 
 export const onRequestGet: PagesFunction<Env> = async ({ request, env, waitUntil, params }) => {
-  const url = new URL(request.url)
   let cache = await caches.open("custom:cache")
-  let response = await cache.match(url.pathname)
+  let cacheKey = new Request(request.url, request)
+  let response = await cache.match(cacheKey)
 
   if (!response) {
     const notion = new Client({ auth: env.NOTION_KEY })
@@ -46,9 +45,9 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env, waitUntil
     // )
 
     response = new Response(JSON.stringify({ page, blocks: blocksWithChildren }), {
-      headers: { "Content-Type": "application/json", 'Cache-Control': 's-maxage=10' }
+      headers: { "Content-Type": "application/json", 'Cache-Control': 's-maxage=300' }
     })
-    waitUntil(cache.put(url.pathname, response.clone()))
+    waitUntil(cache.put(cacheKey, response.clone()))
   }
 
   return response

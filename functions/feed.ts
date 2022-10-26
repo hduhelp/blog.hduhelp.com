@@ -1,6 +1,6 @@
 import { Client } from '@notionhq/client'
 import { Feed } from 'feed'
-import { Env, getDatabase } from './utils/notion'
+import { Env, getDatabase } from './notion'
 
 const domain = 'https://blog.hduhelp.com'
 const year = new Date().getFullYear()
@@ -36,15 +36,22 @@ const generateRSS = (posts: any) => {
   return feed.rss2()
 }
 
-export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
-  const notion = new Client({ auth: env.NOTION_KEY })
-  const posts = await getDatabase(env.NOTION_DATABASE_ID, notion)
-  const xmlFeed = generateRSS(posts)
+export const onRequestGet: PagesFunction<Env> = async ({ request, env, waitUntil }) => {
+  let cache = await caches.open("custom:cache")
+  let cacheKey = new Request(request.url, request)
+  let response = await cache.match(cacheKey)
+  if (!response) {
+    const notion = new Client({ auth: env.NOTION_KEY })
+    const posts = await getDatabase(env.NOTION_DATABASE_ID, notion)
+    const xmlFeed = generateRSS(posts)
 
-  return new Response(xmlFeed, {
-    headers: {
-      "Content-Type": "text/xml",
-      "Cache-Control": "max-age=0, s-maxage=60, stale-while-revalidate",
-    },
-  })
+    response = new Response(xmlFeed, {
+      headers: {
+        "Content-Type": "text/xml",
+        "Cache-Control": "max-age=0, s-maxage=300, stale-while-revalidate",
+      },
+    })
+    waitUntil(cache.put(cacheKey, response.clone()))
+  }
+  return response
 };

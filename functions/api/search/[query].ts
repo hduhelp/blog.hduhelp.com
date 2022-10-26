@@ -1,6 +1,5 @@
 import { Client } from '@notionhq/client/build/src'
-import { Env, searchDatabase } from '../../utils/notion'
-import { jsonResponse } from '../../utils/response'
+import { Env, searchDatabase } from '../../notion'
 
 export const onRequestGet: PagesFunction<Env> = async ({
   env,
@@ -10,5 +9,7 @@ export const onRequestGet: PagesFunction<Env> = async ({
   const query = new URL(request.url).pathname.replace('/api/search/', '')
   const results = await searchDatabase(notion, query as string)
 
-  return jsonResponse(results)
+  return new Response(JSON.stringify(results), {
+    headers: { 'Content-Type': 'application/json' },
+  })
 };
