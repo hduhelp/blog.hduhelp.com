@@ -90,7 +90,6 @@ const Post: NextPage = () => {
               </div>
             </Link>
 
-            <Comments />
           </div>
 
           <BlogToc blocks={blocks} />
