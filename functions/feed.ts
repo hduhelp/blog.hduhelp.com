@@ -1,17 +1,16 @@
+import { Client } from '@notionhq/client'
 import { Feed } from 'feed'
-import { GetServerSideProps } from 'next'
-import { getDatabase } from '../lib/notion'
+import { Env, getDatabase } from './notion'
 
 const domain = 'https://blog.hduhelp.com'
 const year = new Date().getFullYear()
 
-// Function for generating the RSS feed
 const generateRSS = (posts: any) => {
   // Create new feed object
   const feed = new Feed({
     id: domain,
     link: domain,
-    title: "HDUHELP - HDUHELP's Blog (＠_＠;)",
+    title: "HDUHELP - HDUHELP's Blog (@_@;)",
     description: 'Thoughts, ideas, and more.',
     copyright: `All rights reserved ${year}, HDUHELP`,
     image: `${domain}/favicon.png`,
@@ -37,22 +36,22 @@ const generateRSS = (posts: any) => {
   return feed.rss2()
 }
 
-// Dummy component as Next.js must have a component to render
-const FeedComponent = () => null
+export const onRequestGet: PagesFunction<Env> = async ({ request, env, waitUntil }) => {
+  let cache = await caches.open("custom:cache")
+  let cacheKey = new Request(request.url, request)
+  let response = await cache.match(cacheKey)
+  if (!response) {
+    const notion = new Client({ auth: env.NOTION_KEY })
+    const posts = await getDatabase(env.NOTION_DATABASE_ID, notion)
+    const xmlFeed = generateRSS(posts)
 
-export const getServerSideProps: GetServerSideProps = async ({ res }) => {
-  res.setHeader('Cache-Control', 'max-age=0, s-maxage=60, stale-while-revalidate')
-
-  const posts = await getDatabase()
-  const xmlFeed = generateRSS(posts)
-
-  res.setHeader('Content-Type', 'text/xml')
-  res.write(xmlFeed)
-  res.end()
-
-  return {
-    props: {},
+    response = new Response(xmlFeed, {
+      headers: {
+        "Content-Type": "text/xml",
+        "Cache-Control": "max-age=0, s-maxage=300, stale-while-revalidate",
+      },
+    })
+    waitUntil(cache.put(cacheKey, response.clone()))
   }
-}
-
-export default FeedComponent
+  return response
+};

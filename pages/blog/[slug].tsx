@@ -1,6 +1,5 @@
-import type { GetServerSideProps, NextPage } from 'next'
-import { Fragment } from 'react'
-import { ParsedUrlQuery } from 'querystring'
+import type { NextPage } from 'next'
+import { Fragment, useEffect, useState } from 'react'
 
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -9,17 +8,27 @@ import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import { renderNotionBlock } from '../../components/NotionBlockRenderer'
 
-import { getDatabase, getPage, getBlocks } from '../../lib/notion'
-import probeImageSize from '../../lib/imaging'
-import Comments from '../../components/Comments'
 import Link from 'next/link'
 import { ArrowLeft, Bookmark, MessageCircle } from 'react-feather'
 import BlogCopyright from '../../components/BlogCopyright'
 import BlogToc from '../../components/BlogToc'
 
-const Post: NextPage<{ page: any; blocks: any[] }> = ({ page, blocks }) => {
+const Post: NextPage = () => {
   const router = useRouter()
   const hostname = typeof window !== 'undefined' ? window.location.origin : 'https://blog.hduhelp.com'
+  const { slug } = router.query
+
+  const [data, setData] = useState<{page: any, blocks: any[]}>({page: null, blocks: []});
+
+  useEffect(() => {
+    (async () => {
+      const response = await fetch(`/api/blog/${slug}`);
+      const data = await response.json<{page: any, blocks: any[]}>();
+      setData(data);
+    })();
+  }, [slug]);
+
+  const {page, blocks} = data
 
   if (!page || !blocks) return <div></div>
 
@@ -80,7 +89,6 @@ const Post: NextPage<{ page: any; blocks: any[] }> = ({ page, blocks }) => {
               </div>
             </Link>
 
-            <Comments />
           </div>
 
           <BlogToc blocks={blocks} />
@@ -89,64 +97,6 @@ const Post: NextPage<{ page: any; blocks: any[] }> = ({ page, blocks }) => {
       </div>
     </div>
   )
-}
-
-// export const getStaticPaths = async () => {
-//   const db = await getDatabase()
-//   return {
-//     paths: db.map((p: any) => ({ params: { slug: p.properties.slug.rich_text[0].text.content } })),
-//     fallback: 'blocking',
-//   }
-// }
-
-interface Props extends ParsedUrlQuery {
-  slug: string
-}
-export const getServerSideProps: GetServerSideProps = async ({ params, res }) => {
-  res.setHeader('Cache-Control', 'max-age=0, s-maxage=60, stale-while-revalidate')
-
-  const { slug } = params as Props
-  const db = await getDatabase(slug)
-  const post = db[0].id
-
-  const page = await getPage(post)
-  const blocks = await getBlocks(post)
-
-  // Retrieve all child blocks fetched
-  const childBlocks = await Promise.all(
-    blocks
-      .filter((b: any) => b.has_children)
-      .map(async b => {
-        return {
-          id: b.id,
-          children: await getBlocks(b.id),
-        }
-      })
-  )
-  const blocksWithChildren = blocks.map((b: any) => {
-    if (b.has_children && !b[b.type].children) {
-      b[b.type]['children'] = childBlocks.find(x => x.id === b.id)?.children
-    }
-    return b
-  })
-
-  // Resolve all images' dimensions
-  await Promise.all(
-    blocksWithChildren
-      .filter((b: any) => b.type === 'image')
-      .map(async b => {
-        const { type } = b
-        const value = b[type]
-        const src = value.type === 'external' ? value.external.url : value.file.url
-
-        const { width, height } = await probeImageSize(src)
-        value['dim'] = { width, height }
-        b[type] = value
-      })
-  )
-
-  // return { props: { page, blocks: blocksWithChildren }, revalidate: 1 }
-  return { props: { page, blocks: blocksWithChildren } }
 }
 
 export default Post

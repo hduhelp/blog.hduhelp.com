@@ -4,7 +4,6 @@ import { nord } from 'react-syntax-highlighter/dist/cjs/styles/hljs'
 import Latex from 'react-latex-next'
 
 import { Text } from './blocks/NotionTextBlock'
-import Bookmark from './blocks/NotionBookmark'
 import { slugify } from 'transliteration'
 import NotionImage, { getMediaCtx } from './blocks/NotionImage'
 
@@ -112,7 +111,7 @@ export function renderNotionBlock(block: any) {
       )
 
     case 'bookmark':
-      return <Bookmark value={value} />
+      return <Text text={value} />
 
     case 'code':
       return (

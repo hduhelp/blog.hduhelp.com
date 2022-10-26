@@ -7,7 +7,6 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 
 import { friends, FriendProps } from '../config/friend'
-import Comments from '../components/Comments'
 
 const FriendCard: FC<FriendProps> = props => {
   return (
@@ -52,12 +51,6 @@ const Links: NextPage = () => {
             {friends.map((friend: FriendProps) => (
               <FriendCard key={friend.id} {...friend} />
             ))}
-          </div>
-
-          <p className="text-center secondary-text">👇 Leave your comments down below 👇</p>
-
-          <div className="mx-4">
-            <Comments />
           </div>
         </main>
         <Footer />

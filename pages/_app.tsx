@@ -25,7 +25,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <ThemeProvider attribute="class">
-      <Script
+      {/* <Script
         strategy="lazyOnload"
         src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_ANALYTICS_ID}`}
       />
@@ -37,7 +37,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
           gtag('config', '${process.env.NEXT_PUBLIC_ANALYTICS_ID}');
         `}
-      </Script>
+      </Script> */}
 
       <NextNProgress height={1} color="rgb(156, 163, 175, 0.9)" options={{ showSpinner: false }} />
       <Component {...pageProps} />
