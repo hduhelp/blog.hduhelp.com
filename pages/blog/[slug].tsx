@@ -8,7 +8,6 @@ import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import { renderNotionBlock } from '../../components/NotionBlockRenderer'
 
-import Comments from '../../components/Comments'
 import Link from 'next/link'
 import { ArrowLeft, Bookmark, MessageCircle } from 'react-feather'
 import BlogCopyright from '../../components/BlogCopyright'
