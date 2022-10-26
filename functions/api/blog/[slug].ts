@@ -5,7 +5,7 @@ import { jsonResponse } from '../../utils/response';
 export const onRequestGet: PagesFunction<Env> = async ({ request, env, params }) => {
   const url = new URL(request.url)
   let cache = await caches.open("custom:cache")
-  const cached = await cache.match(url)
+  const cached = await cache.match(url.pathname)
   if (cached) {
     return cached
   }
@@ -47,9 +47,11 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env, params })
   //     })
   // )
 
-  return jsonResponse({ page, blocks: blocksWithChildren }, {
-    // headers: {
-    //   'Cache-Control': 'max-age=0, s-maxage=60, stale-while-revalidate'
-    // }
+  const response = jsonResponse({ page, blocks: blocksWithChildren }, {
+    headers: {
+      'Cache-Control': 'max-age=0, s-maxage=60, stale-while-revalidate'
+    }
   })
+  await cache.put(url.pathname, response.clone())
+  return response
 };
