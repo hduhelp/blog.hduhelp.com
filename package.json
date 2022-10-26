@@ -21,7 +21,6 @@
     "next": "^12.0.9",
     "next-themes": "^0.0.15",
     "nextjs-progressbar": "^0.0.13",
-    "image-size-cf": "github:konsumer/image-size-cf",
     "p5": "^1.4.0",
     "prop-types": "15.8.1",
     "react": "17.0.2",
