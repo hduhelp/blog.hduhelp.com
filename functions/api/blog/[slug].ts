@@ -27,19 +27,19 @@ export const onRequestGet: PagesFunction<Env> = async ({ env, params }) => {
     return b
   })
 
-  await Promise.all(
-    blocksWithChildren
-      .filter((b: any) => b.type === 'image')
-      .map(async b => {
-        const { type } = b
-        const value = b[type]
-        const src = value.type === 'external' ? value.external.url : value.file.url
+  // await Promise.all(
+  //   blocksWithChildren
+  //     .filter((b: any) => b.type === 'image')
+  //     .map(async b => {
+  //       const { type } = b
+  //       const value = b[type]
+  //       const src = value.type === 'external' ? value.external.url : value.file.url
 
-        const { width, height } = await probeImageSize(src)
-        value['dim'] = { width, height }
-        b[type] = value
-      })
-  )
+  //       const { width, height } = await probeImageSize(src)
+  //       value['dim'] = { width, height }
+  //       b[type] = value
+  //     })
+  // )
 
   return jsonResponse({ page, blocks: blocksWithChildren }, {
     headers: {
