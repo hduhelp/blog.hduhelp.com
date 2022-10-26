@@ -11,12 +11,14 @@ type BlogPosts = QueryDatabaseResponse["results"];
 
 const Blog: NextPage = () => {
   const [posts, setPosts] = useState<BlogPosts>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
       const response = await fetch("/api/posts");
       const posts: BlogPosts = await response.json<BlogPosts>();
       setPosts(posts);
+      setLoading(false);
     })();
   }, []);
 
@@ -52,7 +54,7 @@ const Blog: NextPage = () => {
           <h1 className="font-bold text-xl mb-8 heading-text flex items-center justify-between">
             <span>Blog</span>
           </h1>
-
+          {loading && <div>Loading...</div>}
           {posts.map((post: any) => (
             <Link
               key={post.id}
